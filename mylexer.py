@@ -4,8 +4,8 @@ import ply.lex as lex
 tokens = (
     'INT',
     'FLOAT',
-    'ADD',
-    'SUB',
+    'PLUS',
+    'MINUS',
     'DIV',
     'MUL',
     'POWER',
@@ -17,8 +17,8 @@ tokens = (
 def MyLexer():
     t_ignore = ' '
 
-    t_ADD = r'\+'
-    t_SUB = r'\-'
+    t_PLUS = r'\+'
+    t_MINUS = r'\-'
     t_MUL = r'\*'
     t_DIV = r'\/'
     t_POWER = r'p'

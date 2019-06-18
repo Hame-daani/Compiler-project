@@ -6,59 +6,64 @@ lexer = MyLexer()
 
 
 def MyParser():
-    def p_e_add(p):
-        'e : e ADD t'
-        p[0] = p[1] + p[3]
+    def p_E(p):
+        '''E : E PLUS T
+             | E MINUS T
+        '''
+        if p[2] == '+':
+            p[0] = p[1] + p[3]
+        elif p[2] == '-':
+            p[0] = p[1] - p[3]
 
-    def p_e_sub(p):
-        'e : e SUB t'
-        p[0] = p[1] - p[3]
-
-    def p_e_negative(p):
-        'e : SUB e'
-        p[0] = -1 * p[2]
-
-    def p_e_t(p):
-        'e : t'
+    def p_E_T(p):
+        'E : T'
         p[0] = p[1]
 
-    def p_t_mul(p):
-        't : t MUL f'
-        p[0] = p[1] * p[3]
+    def p_T(p):
+        '''T : T MUL F
+             | T DIV F
+        '''
+        if p[2] == '*':
+            p[0] = p[1] * p[3]
+        elif p[2] == '/':
+            try:
+                p[0] = p[1] / p[3]
+            except ZeroDivisionError:
+                print("NO ZEROOOOO!!!!")
 
-    def p_t_div(p):
-        't : t DIV f'
-        p[0] = p[1] / p[3]
-
-    def p_t_f(p):
-        't : f'
+    def p_T_F(p):
+        'T : F'
         p[0] = p[1]
 
-    def p_f_power(p):
-        'f : g POWER f'
-        p[0] = p[1] ** p[3]
+    def p_F(p):
+        '''F : G POWER F
+             | MINUS G
+        '''
+        if p[1] == '-':
+            p[0] = -p[2]
+        elif p[2] == 'p':
+            p[0] = p[1] ** p[3]
 
-    def p_f_g(p):
-        'f : g'
+    def p_F_G(p):
+        'F : G'
         p[0] = p[1]
 
-    def p_g_n(p):
-        'g : n'
-        p[0] = p[1]
+    def p_G(p):
+        '''G : NUM
+             | LEFTPAR E RIGHTPAR
+        '''
+        if p[1] == '(':
+            p[0] = p[2]
+        else:
+            p[0] = p[1]
 
-    def p_g_exp(p):
-        'g : LEFTPAR e RIGHTPAR'
-        p[0] = p[2]
-
-    def p_n_int(p):
-        'n : INT'
-        p[0] = p[1]
-
-    def p_n_float(p):
-        'n : FLOAT'
+    def p_NUM(p):
+        '''NUM : INT
+               | FLOAT
+        '''
         p[0] = p[1]
 
     def p_error(p):
         print("syntax error!")
-        
+
     return yacc.yacc()
