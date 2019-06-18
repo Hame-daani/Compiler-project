@@ -1,6 +1,13 @@
-from mylexer import MyLexer
+from myparser import MyParser
 
 if __name__ == "__main__":
-    ml = MyLexer()
-    ml.build()
-    ml.test(input("input: "))
+    parser = MyParser()
+    while True:
+        try:
+            s = input('calc > ')
+        except EOFError:
+            break
+        if not s:
+            continue
+        result = parser.parse(s)
+        print(result)
