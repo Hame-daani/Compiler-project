@@ -1,19 +1,20 @@
 import ply.lex as lex
 
 
-class MyLexer(object):
-    tokens = (
-        'INT',
-        'FLOAT',
-        'ADD',
-        'SUB',
-        'DIV',
-        'MUL',
-        'POWER',
-        'LEFTPAR',
-        'RIGHTPAR'
-    )
+tokens = (
+    'INT',
+    'FLOAT',
+    'ADD',
+    'SUB',
+    'DIV',
+    'MUL',
+    'POWER',
+    'LEFTPAR',
+    'RIGHTPAR'
+)
 
+
+def MyLexer():
     t_ignore = ' '
 
     t_ADD = r'\+'
@@ -24,24 +25,17 @@ class MyLexer(object):
     t_LEFTPAR = r'\('
     t_RIGHTPAR = r'\)'
 
-    def t_FLOAT(self, t):
+    def t_FLOAT(t):
         r'\d+\.\d+'
         t.value = float(t.value)
         return t
 
-    def t_INT(self, t):
+    def t_INT(t):
         r'\d+'
         t.value = int(t.value)
         return t
 
-    def t_error(self, t):
+    def t_error(t):
         print("illegal char:", t.value[0])
         t.lexer.skip(1)
-
-    def build(self, **kwargs):
-        self.lexer = lex.lex(module=self, **kwargs)
-
-    def test(self, data):
-        self.lexer.input(data)
-        for tok in self.lexer:
-            print(tok)
+    return lex.lex()

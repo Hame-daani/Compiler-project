@@ -162,3 +162,5 @@ pyvenv.cfg
 pip-selfcheck.json
 
 # End of https://www.gitignore.io/api/git,code,venv,python
+parser.out
+parsetab.py
